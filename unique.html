@@ -1,0 +1,46 @@
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+<body>
+<input type="text" name="inputStr" id="inputStr">
+<button type="submit" name="submit" onClick="substring()">Submit</button><br>
+<label id="label1" ></label>
+</body>
+</html>
+
+<script>
+function substring(){
+var inputStr = $("#inputStr").val().trim();
+var chars = inputStr.split('');
+var curr_char;
+var str = "";
+var longest_string = "";
+var hash = {};
+for (var i = 0; i < chars.length; i++) {
+	curr_char = chars[i];
+	if (!hash[chars[i]]) 
+	{ 
+		str += curr_char; 
+		hash[chars[i]] = {index:i};
+	}
+	else 
+	{
+		if(longest_string.length <= str.length)
+		{
+			longest_string = str;
+		}
+		var prevIndex = hash[curr_char].index;
+		var fromPrevDupe = inputStr.substring(prevIndex + 1, i);
+		str = fromPrevDupe + curr_char;
+		hash = {};
+		for (var j = prevIndex + 1; j <= i; j++) {
+			hash[inputStr.charAt(j)] = {index:j};
+		}
+	}
+}
+var return1 = longest_string.length > str.length ? longest_string : str;
+var strlen = return1.length; 
+$("#label1").text(return1 +" Charater length is: "+strlen);
+}
+</script>
